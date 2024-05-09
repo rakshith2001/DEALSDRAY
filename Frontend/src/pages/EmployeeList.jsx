@@ -1,34 +1,27 @@
-import { useEffect ,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useEmployeeContext } from '../hooks/useEmployeeContext';
 
-
-
 const EmployeeList = () => {
     const { user } = useAuthContext();
     const { employees, dispatch } = useEmployeeContext();
-    const [filteredRecords, setFilteredRecords] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
 
-    const EditButton = () => <button type="button">Edit</button>;
-    
     useEffect(() => {
-        const fetchEmployees = async () => {
-            const response = await fetch('http://localhost:4500/api/employee', {
-                headers: { 'Authorization': `Bearer ${user.token}` },
-            });
-            const json = await response.json();
+        setFilteredData(employees);
+    }, [employees]);
 
-            if (response.ok) {
-                dispatch({ type: 'SET_EMPLOYEES', payload: json });
-            }
-        };
-
-        if (user) {
-            fetchEmployees();
-        }
-    }, [dispatch, user]);
+    const handleFilter = (event) => {
+        const { value } = event.target;
+        setSearchTerm(value);
+        const newData = employees.filter((row) =>
+            row.f_Name.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredData(newData);
+    };
 
     const columns = [
         {
@@ -37,112 +30,81 @@ const EmployeeList = () => {
         },
         {
             name: 'Name',
-            selector: row => row.name,
+            selector: row => row.f_Name,
         },
         {
             name: 'Email',
-            selector: row => row.email,
+            selector: row => row.f_Email,
         },
         {
             name: 'Mobile No',
-            selector: row => row.mobile,
+            selector: row => row.f_Mobile,
         },
         {
             name: 'Designation',
-            selector: row => row.designation,
+            selector: row => row.f_Designation,
         },
         {
             name: 'Gender',
-            selector: row => row.gender,
+            selector: row => row.f_gender,
         },
         {
             name: 'Course',
-            selector: row => row.course,
+            selector: row => row.f_Course,
         },
         {
             name: 'Created At',
-            selector: row => row.created,
+            selector: row => row.f_Createdate,
         },
         {
             name: 'Actions',
             button: true,
             cell: (row) => (
                 <>
-                    <Link to={`/editemployee/${row._id}`}><EditButton /></Link>
-                    <DeleteButton id={row._id} />
+                    <Link to={`/editemployee/${row._id}`}><button style={{background:"grey", height:"25px"}}>Edit</button></Link>
+                    <button style={{background:"red", height:"25px"}} onClick={() => handleDelete(row._id)}>Delete</button>
                 </>
             ),
         },
     ];
 
-    
+    const handleDelete = async (id) => {
+        if (!user) {
+            return;
+        }
 
-    const DeleteButton = ({ id }) => {
-        const handleClick = async () => {
-            if (!user) {
-                return;
-            }
-    
-            const response = await fetch(`http://localhost:4500/api/employee/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${user.token}`,
-                },
-            });
-    
-            console.log('Response status:', response.status);
-    
-            const json = await response.json();
-    
-            if (response.ok) {
-                dispatch({ type: 'DELETE_EMPLOYEE', payload: json });
-            }
-        };
-    
-        return <button onClick={handleClick} type="button">Delete</button>;
+        const response = await fetch(`http://localhost:4500/api/employee/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`,
+            },
+        });
+
+        console.log('Response status:', response.status);
+
+        const json = await response.json();
+
+        if (response.ok) {
+            dispatch({ type: 'DELETE_EMPLOYEE', payload: json });
+        }
     };
-    
-
-    const data = employees.map(employee => ({
-        _id: employee._id,
-        name: employee.f_Name,
-        email: employee.f_Email,
-        mobile: employee.f_Mobile,
-        designation: employee.f_Designation,
-        gender: employee.f_gender,
-        course: employee.f_Course,
-        created: employee.f_Createdate,
-    }));
-
-
-
-    const handleFilter = (event) => {
-        const { value } = event.target;
-        const newData = employees.filter((row) =>
-          row.f_Name.toLowerCase().includes(value.toLowerCase())
-        );
-        setFilteredRecords(newData);
-      };
-
-      useEffect(() => {
-        // Initialize filteredRecords with all records initially
-        setFilteredRecords(employees);
-      }, [employees]);
-      
-
-   
 
     return (
         <div>
             <div className="pseudo-nav">
                 <h1>Employee List</h1>
-                <Link to='/createemployee'><button className="material-symbols-outlined" >Create Employee</button></Link>
-                <input type="text" onChange={handleFilter} placeholder="Search Employee" className='search' />
+                <Link to='/createemployee'>Create Employee</Link>
+                <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={handleFilter}
+                    placeholder="Search Employee"
+                />
             </div>
             <div>
                 <DataTable
                     columns={columns}
-                    data={data}
+                    data={filteredData}
                     pagination
                 />
             </div>

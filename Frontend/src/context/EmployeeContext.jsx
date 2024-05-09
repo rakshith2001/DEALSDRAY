@@ -12,15 +12,15 @@ export const employeeReducer = (state, action) => {
                 employees: [...state.employees, action.payload],
             };
 
-        case 'UPDATE_EMPLOYEE':
-            return {
-                employees: state.employees.map(employee => {
-                    if (employee._id === action.payload._id) {
-                        return action.payload;
-                    }
-                    return employee;
-                }),
-            };
+            case 'UPDATE_EMPLOYEE':
+                return {
+                    employees: state.employees.map(employee => {
+                        if (employee._id === action.payload._id) {
+                            return action.payload;
+                        }
+                        return employee;
+                    }),
+                };
         
         case 'DELETE_EMPLOYEE':
             return {

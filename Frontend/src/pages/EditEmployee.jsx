@@ -2,20 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useEmployeeContext } from '../hooks/useEmployeeContext';
+import { Link } from 'react-router-dom';
 
 const EditEmployee = () => {
     const { id } = useParams();
     const { user } = useAuthContext();
     const { employees, dispatch } = useEmployeeContext();
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [mobile, setMobile] = useState('');
-    const [designation, setDesignation] = useState('');
-    const [gender, setGender] = useState('');
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [mobile, setMobile] = useState("");
+    const [designation, setDesignation] = useState("");
+    const [gender, setGender] = useState("");
     const [courses, setCourses] = useState([]);
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
+    const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
         const employee = employees.find(emp => emp._id === id);
@@ -48,7 +50,7 @@ const EditEmployee = () => {
 
         const updatedEmployee = { f_Name: name, f_Email: email, f_Mobile: mobile, f_Designation: designation, f_gender: gender, f_Course: courses };
         const response = await fetch(`http://localhost:4500/api/employee/${id}`, {
-            method: 'PUT',
+            method: 'PATCH',
             body: JSON.stringify(updatedEmployee),
             headers: {
                 'Content-Type': 'application/json',
@@ -58,9 +60,11 @@ const EditEmployee = () => {
         const json = await response.json();
 
         if (!response.ok) {
+            setSuccessMessage('');
             setError(json.error);
             setEmptyFields(json.emptyFields || []);
         } else {
+            setSuccessMessage('Employee Edited successfully!');
             setError(null);
             setEmptyFields([]);
             dispatch({ type: 'UPDATE_EMPLOYEE', payload: json }); // Assuming this is your dispatch action
@@ -68,6 +72,8 @@ const EditEmployee = () => {
     };
 
     return (
+        <>
+        <Link to="/EmployeeList">Back</Link>
         <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
     <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Edit Employee</h2>
     <div style={{ marginBottom: '10px', width: '100%' }}>
@@ -129,7 +135,10 @@ const EditEmployee = () => {
 
     <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', width: '100%' }}>Submit</button>
     {error && <div className="error" style={{ color: 'red', marginTop: '10px', textAlign: 'center' }}>{error}</div>}
+    {successMessage && <div style={{ color: 'green', marginTop: '10px', textAlign: 'center' }}>{successMessage}</div>}
+    
 </form>
+</>
 
 
 
