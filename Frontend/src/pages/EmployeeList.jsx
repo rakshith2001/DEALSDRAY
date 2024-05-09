@@ -134,7 +134,7 @@ const EmployeeList = () => {
         <div>
             <div className="pseudo-nav">
                 <h1>Employee List</h1>
-                <Link to='/createemployee'>Create Employee</Link>
+                <Link to='/createemployee'><button className="material-symbols-outlined" >Create Employee</button></Link>
                 <input type="text" onChange={handleFilter} placeholder="Search Employee" className='search' />
             </div>
             <div>

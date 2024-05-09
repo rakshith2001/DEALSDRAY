@@ -17,8 +17,9 @@ const Navbar = () => {
           <h1>Employee Managenent!</h1>
         </Link>
         <nav>
-          <div>
-            <Link to='/EmployeeList'>EmployeeList</Link>
+          <div className='container'>
+            <Link to='/EmployeeList'><h2>EmployeeList</h2></Link>
+            
 
           </div>
         </nav>

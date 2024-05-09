@@ -41,10 +41,7 @@ function App() {
             element={ user? <CreateEmployee/>: <Navigate to='/login' />}
             />
 
-            <Routes>
-                
-                <Route path="/editemployee/:id" element={<EditEmployee />} />
-            </Routes>
+          
 
           
           </Routes>
