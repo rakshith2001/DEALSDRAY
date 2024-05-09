@@ -4,13 +4,15 @@ import DataTable from 'react-data-table-component';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useEmployeeContext } from '../hooks/useEmployeeContext';
 
-const EditButton = () => <button type="button">Edit</button>;
+
 
 const EmployeeList = () => {
     const { user } = useAuthContext();
     const { employees, dispatch } = useEmployeeContext();
     const [filteredRecords, setFilteredRecords] = useState([]);
 
+    const EditButton = () => <button type="button">Edit</button>;
+    
     useEffect(() => {
         const fetchEmployees = async () => {
             const response = await fetch('http://localhost:4500/api/employee', {

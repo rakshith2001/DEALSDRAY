@@ -41,6 +41,8 @@ function App() {
             element={ user? <CreateEmployee/>: <Navigate to='/login' />}
             />
 
+            <Route path='/editemployee/:id' element={<EditEmployee />} />
+
           
 
           

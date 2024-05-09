@@ -62,64 +62,68 @@ const CreateEmployee = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-        <h2>Create Employee</h2>
-      <label>
-        Name:
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      </label>
+        <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Create Employee</h2>
+    <div style={{ marginBottom: '10px', width: '100%' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>Name:</label>
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} style={{ width: '100%', padding: '8px' }} />
+    </div>
 
-      <label>
-        Email:
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </label>
+    <div style={{ marginBottom: '10px', width: '100%' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>Email:</label>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={{ width: '100%', padding: '8px' }} />
+    </div>
 
-      <label>
-        Mobile No:
-        <input type="text" value={mobile} onChange={(e) => setMobile(e.target.value)} />
-      </label>
+    <div style={{ marginBottom: '10px', width: '100%' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>Mobile No:</label>
+        <input type="text" value={mobile} onChange={(e) => setMobile(e.target.value)} style={{ width: '100%', padding: '8px' }} />
+    </div>
 
-      <label>
-        Designation:
-        <select value={designation} onChange={(e) => setDesignation(e.target.value)}>
-          <option value="">Select...</option>
-          <option value="HR">HR</option>
-          <option value="Manager">Manager</option>
-          <option value="Sales">Sales</option>
+    <div style={{ marginBottom: '10px', width: '100%' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>Designation:</label>
+        <select value={designation} onChange={(e) => setDesignation(e.target.value)} style={{ width: '100%', padding: '8px' }}>
+            <option value="">Select...</option>
+            <option value="HR">HR</option>
+            <option value="Manager">Manager</option>
+            <option value="Sales">Sales</option>
         </select>
-      </label>
+    </div>
 
-      <div>
-        Gender:
-        <label>
-          <input type="radio" name="gender" value="Male" checked={gender === 'Male'} onChange={() => setGender('Male')} />
-          Male
-        </label>
-        <label>
-          <input type="radio" name="gender" value="Female" checked={gender === 'Female'} onChange={() => setGender('Female')} />
-          Female
-        </label>
-      </div>
+    <div style={{ marginBottom: '10px', width: '100%' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>Gender:</label>
+        <div style={{ display: 'flex', gap: '10px' }}>
+            <label style={{ marginRight: '20px' }}>
+                <input type="radio" name="gender" value="Male" checked={gender === 'Male'} onChange={() => setGender('Male')} />
+                Male
+            </label>
+            <label>
+                <input type="radio" name="gender" value="Female" checked={gender === 'Female'} onChange={() => setGender('Female')} />
+                Female
+            </label>
+        </div>
+    </div>
 
-      <div>
-        Courses:
-        <label>
-          <input type="checkbox" value="MCA" checked={courses.includes('MCA')} onChange={handleCheckboxChange} />
-          MCA
-        </label>
-        <label>
-          <input type="checkbox" value="BCA" checked={courses.includes('BCA')} onChange={handleCheckboxChange} />
-          BCA
-        </label>
-        <label>
-          <input type="checkbox" value="BSC" checked={courses.includes('BSC')} onChange={handleCheckboxChange} />
-          BSC
-        </label>
-      </div>
+    <div style={{ marginBottom: '10px', width: '100%' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>Courses:</label>
+        <div style={{ display: 'flex', gap: '10px' }}>
+            <label style={{ marginRight: '20px' }}>
+                <input type="checkbox" value="MCA" checked={courses.includes('MCA')} onChange={handleCheckboxChange} />
+                MCA
+            </label>
+            <label style={{ marginRight: '20px' }}>
+                <input type="checkbox" value="BCA" checked={courses.includes('BCA')} onChange={handleCheckboxChange} />
+                BCA
+            </label>
+            <label>
+                <input type="checkbox" value="BSC" checked={courses.includes('BSC')} onChange={handleCheckboxChange} />
+                BSC
+            </label>
+        </div>
+    </div>
 
-      <button type="submit">Submit</button>
-      {error && <div className="error">{error}</div>}
-    </form>
+    <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', width: '100%' }}>Submit</button>
+    {error && <div className="error" style={{ color: 'red', marginTop: '10px', textAlign: 'center' }}>{error}</div>}
+</form>
     );
 }
 
