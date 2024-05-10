@@ -1,6 +1,3 @@
-Sure, here's an improved version of the README for your MERN app:
-MERN App README
-
 This is a MERN (MongoDB, Express.js, React.js, Node.js) application template that you can use to kickstart your project.
 Getting Started
 
