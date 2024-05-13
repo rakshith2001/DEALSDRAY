@@ -29,6 +29,11 @@ const EmployeeList = () => {
             selector: row => row._id,
         },
         {
+            name: 'Image',
+            grow: 0,
+            cell: row => <img height="84px" width="56px" alt={row.f_Image} src={`http://localhost:4500/images/${row.f_Image}`} />,
+        },
+        {
             name: 'Name',
             selector: row => row.f_Name,
         },

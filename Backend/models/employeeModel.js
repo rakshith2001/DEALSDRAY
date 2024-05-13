@@ -32,6 +32,11 @@ const userSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
+    f_Image:{
+        type: String,
+        required: true
+        
+    },
     f_Createdate: {
         type: Date,
         default: Date.now

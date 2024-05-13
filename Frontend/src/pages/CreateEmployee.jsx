@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useEmployeeContext } from '../hooks/useEmployeeContext';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,7 @@ const CreateEmployee = () => {
     const [courses, setCourses] = useState([]);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
+    const [file, setFile] = useState(null);
 
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;
@@ -27,32 +28,46 @@ const CreateEmployee = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (!user) {
             setError('You must be logged in');
             return;
         }
-
-        const newEmployee = { f_Name: name, f_Email: email, f_Mobile: mobile, f_Designation: designation, f_gender: gender, f_Course: courses };
-        const response = await fetch('http://localhost:4500/api/employee', {
-            method: 'POST',
-            body: JSON.stringify(newEmployee),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${user.token}`
+    
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('f_Name', name);
+        formData.append('f_Email', email);
+        formData.append('f_Mobile', mobile);
+        formData.append('f_Designation', designation);
+        formData.append("f_gender", gender);
+        formData.append("f_Course", courses);
+    
+        try {
+            const response = await fetch('http://localhost:4500/api/employee', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+    
+            if (!response.ok) {
+                const json = await response.json();
+                setError(json.error);
+                setSuccessMessage('');
+            } else {
+                const json = await response.json();
+                setSuccessMessage('Employee created successfully!');
+                setError('');
+                dispatch({ type: 'CREATE_EMPLOYEE', payload: json }); // Assuming this is your dispatch action
             }
-        });
-        const json = await response.json();
-
-        if (!response.ok) {
-            setError(json.error);
+        } catch (error) {
+            setError('An error occurred while processing your request.');
             setSuccessMessage('');
-        } else {
-            setSuccessMessage('Employee created successfully!');
-            setError('');
-            dispatch({ type: 'CREATE_EMPLOYEE', payload: json }); // Assuming this is your dispatch action
         }
     };
+    
 
     return (
         <>
@@ -109,6 +124,10 @@ const CreateEmployee = () => {
                         BSC
                     </label>
                 </div>
+            </div>
+            <div style={{ marginBottom: '10px', width: '100%' }}>
+                <label style={{ display: 'block', marginBottom: '5px' }}>Image:</label>
+                <input type="file" onChange={(e) => setFile(e.target.files[0])} style={{ width: '100%', padding: '8px' }} />
             </div>
             
             <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', width: '100%' }}>Submit</button>
