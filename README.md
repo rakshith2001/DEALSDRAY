@@ -1,7 +1,7 @@
 This is a MERN (MongoDB, Express.js, React.js, Node.js) application template that you can use to kickstart your project.
 
 
-![Image Alt text](https://github.com/rakshith2001/DEALSDRAY/blob/main/Frontend/src/assets/employeeManagement.png "Optional title"))
+![Image Alt text](https://github.com/rakshith2001/DEALSDRAY/blob/main/Frontend/src/assets/employeeManagement.png "Optional title")
 
  Getting Started
     Clone this repository to your local machine.
