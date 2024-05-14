@@ -30,7 +30,7 @@ function App() {
             />
             <Route
             path='/signup'
-            element={ <Signup />}
+            element={user ? <Home/>: <Signup />}
             />
             <Route 
             path='/employeeList'
