@@ -3,7 +3,7 @@ This is a MERN (MongoDB, Express.js, React.js, Node.js) application template tha
 
 ![Image Alt text](https://github.com/rakshith2001/DEALSDRAY/blob/main/Frontend/src/assets/employeeManagement.png "Optional title")
 
- Getting Started
+ Getting Started:
     Clone this repository to your local machine.
     Navigate to the project directory in your terminal.
     Install dependencies for both the frontend and backend:
