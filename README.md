@@ -1,6 +1,8 @@
 This is a MERN (MongoDB, Express.js, React.js, Node.js) application template that you can use to kickstart your project.
 Getting Started
 
+![Image Alt text](/images/img.jpg "Optional title"))
+
     Clone this repository to your local machine.
     Navigate to the project directory in your terminal.
     Install dependencies for both the frontend and backend:
